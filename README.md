@@ -22,9 +22,34 @@ settings = {
 }
 ```
 
+## Build your app
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+
+# run unit tests
+npm run unit
+
+# run e2e tests
+npm run e2e
+
+# run all tests
+npm test
+```
+
 ## Run your app
 
-Deploy your app on Github, Heroku or your own server.
+Deploy the dist folder generated after `npm run build` on Github, Heroku or your own server.
 
 ## Contribute
 
