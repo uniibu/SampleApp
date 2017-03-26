@@ -48,7 +48,7 @@
     name: 'NavBar',
     data: function () {
       return {
-        LoginUrl: Settings.BetKingUrlBase + Settings.LoginUrl + '?appId=' + Settings.AppId + '&returnUrl=' + encodeURIComponent(Settings.AppUrl),
+        LoginUrl: Settings.BetKingUrlBase + Settings.LoginUrl + '?appId=' + Settings.AppId,
         AccountManageUrl: Settings.BetKingUrlBase + Settings.AccountManageUrl
       }
     },

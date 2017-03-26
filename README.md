@@ -21,6 +21,11 @@ settings = {
   AppUrl: 'URL_OF_YOUR_APP'
 }
 ```
+## Installation
+
+`npm install`
+
+`npm run build`
 
 ## Build your app
 
