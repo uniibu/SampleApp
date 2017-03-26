@@ -1,0 +1,46 @@
+﻿body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.body-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.dl-horizontal dt {
+  white-space: normal;
+}
+
+input,
+select,
+textarea {
+  max-width: 280px;
+}
+
+body {
+  background-color: #2C3940;
+  color: #FBFCFE;
+}
+
+.navbar {
+  background-color: #1B262D;
+}
+
+.nav {
+  margin-top: 13px;
+}
+
+.navbar-inverse {
+  border-color: #1B262D;
+}
+
+.navbar-inverse .navbar-toggle {
+  background-color: #1B262D;
+  border-color: #FBFCFE;
+}
+
+.navbar-inverse .navbar-collapse {
+  background-color: #1B262D;
+  border-color: #1B262D;
+}
