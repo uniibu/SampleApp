@@ -25,3 +25,9 @@ settings = {
 ## Run your app
 
 Deploy your app on Github, Heroku or your own server.
+
+## Contribute
+
+You can submit pull requests for features or bug fixes.
+There's a list of issues marked with the Front-end label which should be able to be implemented without anything else being added to back end.
+You can also submit code for features or fixes not on the issues list if you find something yourself.
