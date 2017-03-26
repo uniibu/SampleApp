@@ -63,15 +63,19 @@ const mutations = {
     state.Currency = currency
     state.CurrencySymbol = formatCurrency(currency)
   },
-  [types.SET_BALANCE] (state, balance) {
-    state.Balance = balance
+  [types.SET_BALANCE] (state, {Balance, Currency}) {
+    if (state.Currency === Currency) {
+      state.Balance = Balance
+    }
   },
-  [types.SET_STATS] (state, {NumBets, MaxWin, Bankroll, Wagered, Profit}) {
-    state.NumBets = NumBets
-    state.MaxWin = MaxWin
-    state.Bankroll = Bankroll
-    state.Wagered = Wagered
-    state.Profit = Profit
+  [types.SET_STATS] (state, {Currency, NumBets, MaxWin, Bankroll, Wagered, Profit}) {
+    if (state.Currency === Currency) {
+      state.NumBets = NumBets
+      state.MaxWin = MaxWin
+      state.Bankroll = Bankroll
+      state.Wagered = Wagered
+      state.Profit = Profit
+    }
   },
   [types.SET_SEED] (state, {ServerSeedHash, ClientSeed, Nonce}) {
     state.ServerSeedHash = ServerSeedHash
@@ -108,7 +112,7 @@ const mutations = {
     state.PreviousSeed = data.PreviousSeed
     state.PreviousSeedHash = data.PreviousSeedHash
     state.PreviousClientSeed = data.PreviousClientSeed
-    state.PreviousNonce = data.previousNonce
+    state.PreviousNonce = data.PreviousNonce
   },
   [types.SET_SIGNALR] (state, signalr) {
     state.Signalr = signalr
@@ -119,7 +123,7 @@ const actions = {
   changeCurrency ({commit}, currency) {
     commit(types.SET_CURRENCY, currency)
     api.getBalance(currency).then(function (response) {
-      commit(types.SET_BALANCE, response.data.Balance)
+      commit(types.SET_BALANCE, {Balance: response.data.Balance, Currency: currency})
     })
     api.getStats(currency).then(function (response) {
       commit(types.SET_STATS, response.data)
@@ -167,13 +171,13 @@ const actions = {
 
       if (data.UserName !== '') {
         commit(types.SET_USERNAME, data.UserName)
-        commit(types.SET_BALANCE, data.Balance)
+        commit(types.SET_BALANCE, {Balance: data.Balance, Currency: state.Currency})
         commit(types.SET_SEED, data)
       }
       commit(types.SET_BETS, data.Bets)
     })
   },
-  setupNotifications ({commit, state}) {
+  setupNotifications ({commit}) {
     const hubConnection = $.hubConnection(Settings.SocketUrl, {useDefaultPath: false})
     const socketHub = hubConnection.createHubProxy('socketHub')
     commit(types.SET_SIGNALR, {hubConnection, socketHub})
@@ -191,10 +195,10 @@ const actions = {
       commit(types.SET_WAITING_ON_BET_RESULT, false)
     })
 
-    socketHub.on('diceBetResult', (balance, nonce, appId) => {
+    socketHub.on('diceBetResult', (balance, nonce, currency, appId) => {
       if (Settings.AppId === appId) {
         commit(types.SET_NONCE, nonce)
-        commit(types.SET_BALANCE, balance)
+        commit(types.SET_BALANCE, {Balance: balance, Currency: currency})
         commit(types.SET_WAITING_ON_BET_RESULT, false)
       }
     })
@@ -229,23 +233,22 @@ const actions = {
       }
     })
 
-    socketHub.on('newDeposit', (balance, appId) => {
+    socketHub.on('newDeposit', (balance, currency, appId) => {
       if (Settings.AppId === appId) {
-        commit(types.SET_BALANCE, balance)
-        toastr.info('New deposit of received')
+        commit(types.SET_BALANCE, {Balance: balance, Currency: currency})
+        toastr.info('New deposit of  received')
       }
     })
 
     socketHub.on('updateStats', (currency, bankroll, maxWin, numBets, profit, wagered) => {
-      if (currency === state.Currency) {
-        commit(types.SET_STATS, {
-          NumBets: numBets,
-          MaxWin: maxWin,
-          Bankroll: bankroll,
-          Wagered: wagered,
-          Profit: profit
-        })
-      }
+      commit(types.SET_STATS, {
+        Currency: currency,
+        NumBets: numBets,
+        MaxWin: maxWin,
+        Bankroll: bankroll,
+        Wagered: wagered,
+        Profit: profit
+      })
     })
 
     hub.start({hubConnection, socketHub})

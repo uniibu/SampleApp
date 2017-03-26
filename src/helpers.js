@@ -1,5 +1,7 @@
+import {currencies} from './currencies'
+
 export const formatCurrency = (c) => {
-  if (c === 0) { return 'F' } else if (c === 1) { return '฿' } else if (c === 2) { return 'E' } else if (c === 3) { return 'D' } else if (c === 4) { return 'L' } else if (c === 5) { return 'M' }
+  return currencies.find(currency => currency.value === c).symbol
 }
 
 export const formatTarget = (chance, target) => {

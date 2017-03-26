@@ -7,12 +7,7 @@
           <p id="Balance">{{ Balance }}{{ CurrencySymbol }} <span class="caret"></span></p>
         </div>
         <ul class="dropdown-menu" aria-labelledby="currencyMenu">
-          <li><a href="#" v-on:click.prevent="onCurrencyChange(0)">Free</a></li>
-          <li><a href="#" v-on:click.prevent="onCurrencyChange(1)">Bitcoin</a></li>
-          <li><a href="#" v-on:click.prevent="onCurrencyChange(2)">Ethereum</a></li>
-          <li><a href="#" v-on:click.prevent="onCurrencyChange(3)">Dash</a></li>
-          <li><a href="#" v-on:click.prevent="onCurrencyChange(4)">Litecoin</a></li>
-          <li><a href="#" v-on:click.prevent="onCurrencyChange(5)">Monero</a></li>
+          <li v-for="currency in Currencies"><a href="#" v-on:click.prevent="onCurrencyChange(currency.value)">{{ currency.name }}</a></li>
         </ul>
         <label for="Balance">Balance</label>
       </div>
@@ -64,9 +59,13 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import {currencies} from '../currencies'
 
   export default {
     name: 'StatsBar',
+    data: () => ({
+      Currencies: currencies
+    }),
     computed: mapGetters({
       Balance: 'Balance',
       Currency: 'Currency',
